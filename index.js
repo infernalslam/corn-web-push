@@ -3,19 +3,27 @@ const app = express()
 const router = express.Router()
 const bodyParser = require('body-parser')
 const routeConfig = require('./src/config/routes')
+const jwt = require('jsonwebtoken')
 
 app.use(bodyParser.json({
   type: '*/*'
 }))
+app.use((req, res, next) => {
+  req.auth = {
+    storeId: 1,
+    userId: 1
+  }
+  next()
+})
 Object.keys(routeConfig).forEach((key, index) => {
   routeConfig[key].forEach((route) => {
     const {methods ,path ,controller} = route
     console.log(methods ,path ,controller)
-    router[methods.toLowerCase()](`/${key}/${path}`, catchAsyncErrors(controller))
+    router[methods.toLowerCase()](`/${key}${path}`, catchAsyncErrors(controller))
   })
 })
 app.use('/api', router)
-app.use((err, req,res, next) => {
+app.use((err, req, res, next) => {
   console.log(err)
   if(err.status){
     res.status(err.status).send({

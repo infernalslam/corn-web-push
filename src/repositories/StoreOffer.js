@@ -1,62 +1,63 @@
 module.exports = function (sequelize, Sequelize) {
-  const StoreOffer = sequelize.define('storeOffer', {
+  const storeOffer = sequelize.define('storeOffer', {
     "id": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
       "field": "id"
     },
     "storeId": {
-      "type": "type",
+      "type": Sequelize.INTERGER(10).UNSIGNED,
       "allowNull": true,
       "field": "store_id"
     },
     "offerId": {
-      "type": "type",
+      "type": Sequelize.INTERGER(10).UNSIGNED,
       "allowNull": true,
       "field": "offer_id"
     },
     "startDate": {
-      "type": "type",
+      "type": Sequelize.DATE,
       "allowNull": false,
       "field": "start_date"
     },
     "expireDate": {
-      "type": "type",
+      "type": Sequelize.DATE,
       "allowNull": false,
       "field": "expire_date"
     },
     "note": {
-      "type": "type",
+      "type": Sequelize.STRING(255),
       "allowNull": false,
       "field": "note"
     },
     "status": {
-      "type": "type",
+      "type": Sequelize.STRING(10),
       "allowNull": true,
       "defaultsTo": "queue",
       "field": "status"
     },
     "createBySellsukiUserId": {
-      "type": "type",
+      "type": Sequelize.INTERGER(10).UNSIGNED,
       "allowNull": true,
       "field": "create_by_sellsuki_user_id"
     },
     "createTime": {
-      "type": "type",
+      "type": Sequelize.DATE,
       "allowNull": true,
       "defaultsTo": "CURRENT_TIMESTAMP",
       "field": "create_time"
     },
     "sellsukiOrderId": {
-      "type": "type",
+      "type": Sequelize.STRING(12),
       "allowNull": false,
       "field": "sellsuki_order_id"
     }
   }, {
-    "tableName": "cti_bill_state",
+    "tableName": "store_offer",
     "freezeTableName": true,
     "underscored": true,
     "timestamps": false,
     "classMethods": {}
-  }) return StoreOffer
+  }) 
+  return storeOffer
 }

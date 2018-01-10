@@ -1,47 +1,48 @@
 module.exports = function (sequelize, Sequelize) {
-  const StorePhoto = sequelize.define('storePhoto', {
+  const storePhoto = sequelize.define('storePhoto', {
     "id": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
       "field": "id"
     },
     "src": {
-      "type": "type",
+      "type": Sequelize.TEXT,
       "allowNull": true,
       "field": "src"
     },
     "refId": {
-      "type": "type",
+      "type": Sequelize.TEXT,
       "allowNull": false,
       "field": "ref_id"
     },
     "uploadType": {
-      "type": "type",
+      "type": Sequelize.STRING(10),
       "allowNull": true,
       "defaultsTo": "upload",
       "field": "upload_type"
     },
     "createBySellsukiUserId": {
-      "type": "type",
+      "type": Sequelize.INTERGER(10),
       "allowNull": true,
       "field": "create_by_sellsuki_user_id"
     },
     "createTime": {
-      "type": "type",
+      "type": Sequelize.DATE,
       "allowNull": true,
       "defaultsTo": "0000-00-00 00:00:00",
       "field": "create_time"
     },
     "storeId": {
-      "type": "type",
+      "type": Sequelize.INTERGER(10),
       "allowNull": true,
       "field": "store_id"
     }
   }, {
-    "tableName": "cti_bill_state",
+    "tableName": "store_photo",
     "freezeTableName": true,
     "underscored": true,
     "timestamps": false,
     "classMethods": {}
-  }) return StorePhoto
+  }) 
+  return storePhoto
 }

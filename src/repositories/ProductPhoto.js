@@ -1,25 +1,29 @@
+const {sequelize, Sequelize} = require('./dbContext')
 module.exports = function (sequelize, Sequelize) {
-  const ProductPhoto = sequelize.define('productPhoto', {
+  const productPhoto = sequelize.define('productPhoto', {
     "productId": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
-      "field": "product_id"
+      "field": "product_id",
+      primaryKey: true
     },
     "storePhotoId": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
-      "field": "store_photo_id"
+      "field": "store_photo_id",
+      primaryKey: true
     },
     "default": {
-      "type": "type",
+      "type": Sequelize.INTEGER(4),
       "allowNull": true,
       "field": "default"
     }
   }, {
-    "tableName": "cti_bill_state",
+    "tableName": "product_photo",
     "freezeTableName": true,
     "underscored": true,
     "timestamps": false,
     "classMethods": {}
-  }) return ProductPhoto
+  }) 
+  return productPhoto
 }

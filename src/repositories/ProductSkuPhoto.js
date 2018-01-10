@@ -1,31 +1,33 @@
 module.exports = function (sequelize, Sequelize) {
-  const ProductSkuPhoto = sequelize.define('productSkuPhoto', {
+  const productSkuPhoto = sequelize.define('productSkuPhoto', {
     "productSkuId": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
       "field": "product_sku_id"
     },
     "storePhotoId": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
       "field": "store_photo_id"
     },
     "default": {
-      "type": "type",
+      "type": Sequelize.INTEGER(4),
       "allowNull": true,
       "defaultsTo": "0",
       "field": "default"
     },
     "id": {
-      "type": "type",
+      "type": Sequelize.BIGINT(20).UNSIGNED,
       "allowNull": true,
-      "field": "id"
+      "field": "id",
+      primaryKey: true
     }
   }, {
-    "tableName": "cti_bill_state",
+    "tableName": "product_sku_photo",
     "freezeTableName": true,
     "underscored": true,
     "timestamps": false,
     "classMethods": {}
-  }) return ProductSkuPhoto
+  }) 
+  return productSkuPhoto
 }
