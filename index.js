@@ -18,7 +18,6 @@ app.use((req, res, next) => {
 Object.keys(routeConfig).forEach((key, index) => {
   routeConfig[key].forEach((route) => {
     const {methods ,path ,controller} = route
-    console.log(methods ,path ,controller)
     router[methods.toLowerCase()](`/${key}${path}`, catchAsyncErrors(controller))
   })
 })

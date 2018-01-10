@@ -4,7 +4,6 @@ class Product {
   constructor (rows) {
     let response = []
     rows.forEach(row => {
-      console.log(row.photo_id)
       response.push({
         id: row.id,
         name: row.name,
