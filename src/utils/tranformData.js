@@ -1,18 +1,14 @@
 module.exports = {
   groupBy (data, field) {
-    let productIds = data.map(value => value.id).reduce((result, current) => {
+    let tranformedData = data.map(value => value[field]).reduce((result, current) => {
       if(!result.includes(current)){
-        result.push(current)
+        let child = data.filter(item => item[field] === current)
+        let parent = child[0]
+        parent.child = child
+        result.push(parent)
       }
       return result
     },[])
-    let tranformedData = []
-    productIds.forEach((productId, index) => {
-      let skus = data.filter(product => product.id === productId)
-      let temp = skus[0]
-      temp.child = skus
-      tranformedData.push(temp)
-    })
     return tranformedData
   }
 }
