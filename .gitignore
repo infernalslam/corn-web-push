@@ -1,6 +1,6 @@
 *
 !package-lock.json
 !package.json
-!src/*
-!src/*/*
+!src/
+!src/**/*
 !index.js
