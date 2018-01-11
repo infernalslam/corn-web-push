@@ -103,6 +103,7 @@ const product = sequelize.define('product', {
   })
 
   product.fetchWithphotoAndSku = async function (params) {
+    console.log()
     const queryBinding = [{
       prefix: 'sp',
       field: 'store_id',
@@ -190,6 +191,7 @@ const product = sequelize.define('product', {
       count
     }
   }
+
 
   product.fethOnlyProduct = async function (params) {
     const queryBinding = [{

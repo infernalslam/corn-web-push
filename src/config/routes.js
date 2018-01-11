@@ -15,7 +15,12 @@ module.exports = {
     {
       methods: 'GET',
       path: '/:id/sku',
-      controller: productControllers.getSku
+      controller: productControllers.getSkus
+    },
+    {
+      methods: 'GET',
+      path: '/:id/sku/:skuId',
+      controller: productControllers.getSkuById
     }
   ]
 }
