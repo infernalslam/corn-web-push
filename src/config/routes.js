@@ -5,7 +5,7 @@ module.exports = {
     {
       methods: 'GET',
       path: '/',
-      controller: productControllers.getAll
+      controller: productControllers.get
     },
     {
       methods: 'GET',

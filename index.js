@@ -1,20 +1,35 @@
 const express = require('express')
-const app = express()
 const router = express.Router()
 const bodyParser = require('body-parser')
 const routeConfig = require('./src/config/routes')
 const jwt = require('jsonwebtoken')
+const catchAsyncErrors = require('./src/utils/catchAsyncErrors')
+const { requestMiddleware, errorExceptionMiddleware } = require('./src/middlewares')
 
+const app = express()
+let startAt = ''
+
+// use body parser
 app.use(bodyParser.json({
   type: '*/*'
 }))
-app.use((req, res, next) => {
-  req.auth = {
-    storeId: 1,
-    userId: 1
+
+// handling request (extract or check param before pass to controller)
+app.use(requestMiddleware)
+
+// server status
+app.get('/', function (req, res) {
+  let current = new Date()
+  let uptime = Math.abs(current - startAt) / 36e5;
+  let server = {
+    started: startAt,
+    uptime: uptime,
+    status: 'OK'
   }
-  next()
+  res.send(server)
 })
+
+// generating API route
 Object.keys(routeConfig).forEach((key, index) => {
   routeConfig[key].forEach((route) => {
     const {methods ,path ,controller} = route
@@ -22,30 +37,12 @@ Object.keys(routeConfig).forEach((key, index) => {
   })
 })
 app.use('/api', router)
-app.use((err, req, res, next) => {
-  console.log(err)
-  if(err.status){
-    res.status(err.status).send({
-      code: err.status,
-      message: err.message
-    })
-  } else {
-    res.status(500).send({
-      code: 500,
-      message: 'somthing went wrong'
-    })
-  }  
+
+// catch application error then managing response
+app.use(errorExceptionMiddleware)
+
+// start server at specific port
+app.listen(8005, () => {
+  startAt = new Date()
+  console.log('app listening on port 8005!')
 })
-
-
-
-function catchAsyncErrors(fn) {  
-  return (req, res, next) => {
-    const routePromise = fn(req, res, next)
-    if (routePromise.catch) {
-        routePromise.catch(err => next(err))
-    }
-  }
-}
-
-app.listen(8005, () => console.log('app listening on port 8005!'))
