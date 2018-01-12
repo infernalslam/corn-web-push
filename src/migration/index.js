@@ -1,4 +1,4 @@
-"use strict"
+'use strict'
 
 let connection = require('./src/DBCConector')
 const tranformer = require('./src/createStructure')
@@ -8,7 +8,7 @@ const { outputPath, dbConfig, dbTables } = require('./config')
 async function main () {
   connection = new connection(dbConfig.host,dbConfig.username,dbConfig.password,dbConfig.schema)
   connection.dbConnect()
-  console.log(`Start converting database schema to model...`)
+  console.log('Start converting database schema to model...')
   console.log(`--- Schema: ${dbConfig.schema} ---`)
   console.log(`--- Target: ${dbTables.length} tables ---`)
   console.log(`--- Output Path: "${outputPath}" ---`)
