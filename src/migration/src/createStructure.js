@@ -83,10 +83,10 @@ function _definedType (type) {
   }
 }
 function _definedAllowNull (Null) {
-  if (Null !== 'NO') {
-    return false
-  } else {
+  if (Null === 'YES') {
     return true
+  } else {
+    return false
   }
 }
 

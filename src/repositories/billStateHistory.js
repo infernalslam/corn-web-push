@@ -28,6 +28,7 @@ const BillStateHistory = sequelize.define('billStateHistory', {
   },
   "id": {
     "type": Sequelize.INTEGER(20).UNSIGNED,
+    "autoIncrement": true,
     "allowNull": true,
     "field": "id"
   }

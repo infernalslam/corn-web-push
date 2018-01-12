@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "migration": "node ./src/migration"
+    "migration": "node ./src/migration",
+    "serve": "export NODE_ENV=local && node ."
   },
   "repository": {
     "type": "git",

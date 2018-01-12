@@ -1,10 +1,8 @@
-const product = require('./Product')
-const productSku = require('./ProductSku')
+const bill = require('./bill')
 const {Op, QueryTypes} = require('./dbContext')
 
 module.exports = {
-  product,
-  productSku,
+  bill,
   Op,
   QueryTypes
 }

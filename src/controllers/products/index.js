@@ -1,4 +1,4 @@
-const get = require('./getAll')
+const get = require('./get')
 const getById = require('./getById')
 const getSkus = require('./getSkus')
 const getSkuById = require('./getSkuById')
