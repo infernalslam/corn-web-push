@@ -13,9 +13,15 @@
     "mysql2": "^1.5.1",
     "sequelize": "^4.28.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "camelcase": "^4.1.0",
+    "js-beautify": "^1.7.5",
+    "replace-in-file": "^3.1.0",
+    "mysql": "^2.15.0"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migration": "node ./src/migration"
   },
   "repository": {
     "type": "git",
