@@ -4,7 +4,6 @@ class Product {
   constructor (rows) {
     let response = []
     rows.forEach(row => {
-      console.log(row.photo_id)
       response.push({
         id: row.id,
         name: row.name,
@@ -17,6 +16,8 @@ class Product {
         product_photo: row.product_photo ? row.product_photo.split(':;:') : row.product_photo,
         photo_id: row.photo_id ? row.photo_id.toString().split(':;:') : row.photo_id,
         product_photo_flag: row.product_photo_flag ? row.product_photo_flag.split(':;:') : row.product_photo_flag,
+        tag: row.tag ? row.tag.split(':;:') : row.tag,
+        tag_type: row.tag_type ? row.tag_type.split(':;:') : row.tag_type,
         skus: new ProductSku(row.child)
       })
     })

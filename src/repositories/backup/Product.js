@@ -103,11 +103,18 @@ const product = sequelize.define('product', {
   })
 
   product.fetchWithphotoAndSku = async function (params) {
+    console.log()
     const queryBinding = [{
       prefix: 'sp',
       field: 'store_id',
       condition: '=',
       value: params.where.store_id
+    },
+    {
+      prefix: 'p',
+      field: 'id',
+      condition: '=',
+      value: params.where.id
     },
     {
       prefix: 'p',
@@ -144,11 +151,10 @@ const product = sequelize.define('product', {
     params.where.sku_code = `%${params.where.sku_code}%`
     const {sp, p, p_sku} = dbUtil.createWhereCondition(queryBinding)
     const bindOption = dbUtil.createBindOption(params)
-    console.log(sp, p, p_sku)
     let sql = `SELECT *,p.code_temp as product_code,p_sku.code as sku_code,p_sku.status as sku_status
     ,p.id as id,p_sku.id as product_sku_id
       FROM (SELECT * FROM product as p 
-        WHERE ${p.store_id} AND ${p.status} AND (${p.product_code} OR ${p.name})
+        WHERE ${p.store_id} AND ${p.status} AND ${p.id} AND (${p.product_code} OR ${p.name})
         ORDER BY p.${params.otherOptions.sort} ${params.otherOptions.order}
         LIMIT :limit OFFSET :offset) as p
       JOIN product_sku as p_sku ON p.id = p_sku.product_id AND p_sku.status != 0
@@ -186,6 +192,7 @@ const product = sequelize.define('product', {
     }
   }
 
+
   product.fethOnlyProduct = async function (params) {
     const queryBinding = [{
       prefix: 'p',
@@ -221,7 +228,6 @@ const product = sequelize.define('product', {
     sql = `SELECT COUNT(*) as count FROM product ${condition}`
     let count = await sequelize.query(sql, bindOption)
     count = count[0].count
-    console.log(rows)
     return {
       rows,
       count

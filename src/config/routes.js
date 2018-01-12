@@ -7,10 +7,20 @@ module.exports = {
       path: '/',
       controller: productControllers.get
     },
-    // {
-    //   methods: 'GET',
-    //   path: '/:id',
-    //   controller: productControllers.getById
-    // }
+    {
+      methods: 'GET',
+      path: '/:id',
+      controller: productControllers.getById
+    },
+    {
+      methods: 'GET',
+      path: '/:id/sku',
+      controller: productControllers.getSkus
+    },
+    {
+      methods: 'GET',
+      path: '/:id/sku/:skuId',
+      controller: productControllers.getSkuById
+    }
   ]
 }

@@ -1,5 +1,11 @@
-const get = require('./get')
+const get = require('./getAll')
+const getById = require('./getById')
+const getSkus = require('./getSkus')
+const getSkuById = require('./getSkuById')
 
 module.exports = {
-  get
+  get,
+  getById,
+  getSkus,
+  getSkuById
 }
