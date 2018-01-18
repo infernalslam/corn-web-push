@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const routeConfig = require('./src/config/routes')
 const jwt = require('jsonwebtoken')
 const catchAsyncErrors = require('./src/utils/catchAsyncErrors')
-const { requestMiddleware, errorExceptionMiddleware } = require('./src/middlewares')
+const { requestMiddleware, errorExceptionMiddleware, logMiddleware } = require('./src/middlewares')
 
 const app = express()
 let startAt = ''
@@ -16,6 +16,9 @@ app.use(bodyParser.json({
 
 // handling request (extract or check param before pass to controller)
 app.use(requestMiddleware)
+
+// log middleware using morgan
+app.use(logMiddleware)
 
 // server status
 app.get('/', function (req, res) {

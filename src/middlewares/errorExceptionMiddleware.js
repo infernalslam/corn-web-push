@@ -1,5 +1,5 @@
 module.exports = function (err, req, res, next) {
-  if(err.status){
+  if (err.status) {
     res.status(err.status).send({
       code: err.status,
       message: err.message
@@ -9,5 +9,6 @@ module.exports = function (err, req, res, next) {
       code: 500,
       message: 'somthing went wrong'
     })
-  }  
+  }
+  console.log(err)
 }

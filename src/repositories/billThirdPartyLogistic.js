@@ -1,58 +1,57 @@
 const {
   sequelize,
-  Sequelize,
-  dbUtil
+  Sequelize
 } = require('./dbContext')
 const BillThirdPartyLogistic = sequelize.define('billThirdPartyLogistic', {
-  "billId": {
-    "type": Sequelize.STRING(16),
-    "allowNull": true,
-    "field": "bill_id"
+  'billId': {
+    'type': Sequelize.STRING(16),
+    'allowNull': false,
+    'field': 'bill_id'
   },
-  "logisticType": {
-    "type": Sequelize.STRING(20),
-    "allowNull": true,
-    "field": "logistic_type"
+  'logisticType': {
+    'type': Sequelize.STRING(20),
+    'allowNull': false,
+    'field': 'logistic_type'
   },
-  "credential": {
-    "type": Sequelize.STRING(225),
-    "allowNull": true,
-    "field": "credential"
+  'credential': {
+    'type': Sequelize.STRING(225),
+    'allowNull': false,
+    'field': 'credential'
   },
-  "logisticRefCode": {
-    "type": Sequelize.STRING(20),
-    "allowNull": false,
-    "field": "logistic_ref_code"
+  'logisticRefCode': {
+    'type': Sequelize.STRING(20),
+    'allowNull': true,
+    'field': 'logistic_ref_code'
   },
-  "createBy": {
-    "type": Sequelize.INTEGER(10).UNSIGNED,
-    "allowNull": true,
-    "field": "create_by"
+  'createBy': {
+    'type': Sequelize.INTEGER(10).UNSIGNED,
+    'allowNull': false,
+    'field': 'create_by'
   },
-  "createTime": {
-    "type": Sequelize.DATE,
-    "allowNull": true,
-    "defaultsTo": "CURRENT_TIMESTAMP",
-    "field": "create_time"
+  'createTime': {
+    'type': Sequelize.DATE,
+    'allowNull': false,
+    'defaultsTo': 'CURRENT_TIMESTAMP',
+    'field': 'create_time'
   },
-  "updateBy": {
-    "type": Sequelize.INTEGER(10).UNSIGNED,
-    "allowNull": true,
-    "field": "update_by"
+  'updateBy': {
+    'type': Sequelize.INTEGER(10).UNSIGNED,
+    'allowNull': false,
+    'field': 'update_by'
   },
-  "updateTime": {
-    "type": Sequelize.DATE,
-    "allowNull": true,
-    "defaultsTo": "0000-00-00 00:00:00",
-    "field": "update_time"
+  'updateTime': {
+    'type': Sequelize.DATE,
+    'allowNull': false,
+    'defaultsTo': '0000-00-00 00:00:00',
+    'field': 'update_time'
   }
 }, {
-  "tableName": "bill_third_party_logistic",
-  "freezeTableName": true,
-  "underscored": true,
-  "timestamps": true,
-  "createAt": "create_time",
-  "updateAt": "update_time",
-  "classMethods": {}
+  'tableName': 'bill_third_party_logistic',
+  'freezeTableName': true,
+  'underscored': true,
+  'timestamps': false,
+  'createTime': 'create_time',
+  'classMethods': {}
 })
+
 module.exports = BillThirdPartyLogistic

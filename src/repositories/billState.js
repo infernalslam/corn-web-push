@@ -1,19 +1,19 @@
 const {
   sequelize,
-  Sequelize,
-  dbUtil
+  Sequelize
 } = require('./dbContext')
 const BillState = sequelize.define('billState', {
-  "stateName": {
-    "type": Sequelize.STRING(45),
-    "allowNull": true,
-    "field": "state_name"
+  'stateName': {
+    'type': Sequelize.STRING(45),
+    'allowNull': false,
+    'field': 'state_name'
   }
 }, {
-  "tableName": "bill_state",
-  "freezeTableName": true,
-  "underscored": true,
-  "timestamps": false,
-  "classMethods": {}
+  'tableName': 'bill_state',
+  'freezeTableName': true,
+  'underscored': true,
+  'timestamps': false,
+  'classMethods': {}
 })
+
 module.exports = BillState

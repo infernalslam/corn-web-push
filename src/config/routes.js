@@ -1,26 +1,52 @@
-const productControllers = require('../controllers/products')
+const billController = require('../controllers/bill')
+const billItemController = require('../controllers/billItem')
 
 module.exports = {
-  product: [
+  bill: [
     {
       methods: 'GET',
       path: '/',
-      controller: productControllers.get
+      controller: billController.get
     },
     {
       methods: 'GET',
       path: '/:id',
-      controller: productControllers.getById
+      controller: billController.getById
+    },
+    {
+      methods: 'POST',
+      path: '/',
+      controller: billController.create
+    },
+    {
+      methods: 'PUT',
+      path: '/',
+      controller: billController.update
+    },
+    {
+      methods: 'DELETE',
+      path: '/:id',
+      controller: billController.delete
     },
     {
       methods: 'GET',
-      path: '/:id/sku',
-      controller: productControllers.getSkus
+      path: '/:id/items',
+      controller: billItemController.get
     },
     {
-      methods: 'GET',
-      path: '/:id/sku/:skuId',
-      controller: productControllers.getSkuById
+      methods: 'POST',
+      path: '/:id/items',
+      controller: billItemController.create
+    },
+    {
+      methods: 'PUT',
+      path: '/:id/items/:itemId',
+      controller: billItemController.update
+    },
+    {
+      methods: 'DELETE',
+      path: '/:id/items/:itemId',
+      controller: billItemController.delete
     }
   ]
 }

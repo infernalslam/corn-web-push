@@ -10,7 +10,7 @@ module.exports = async function (limit, offset, sort, order, storeId, status, na
       sku_code: skuCode,
       name: name,
       status: status || 0
-      },
+    },
     otherOptions: {
       sort: sort || db.sort,
       order: order || db.order,
@@ -21,7 +21,6 @@ module.exports = async function (limit, offset, sort, order, storeId, status, na
   let productData = await model.product.fetchWithphotoAndSku(params)
   productData.rows = tranformDataUtil.groupBy(productData.rows, 'id')
   return productData
-
 }
 
 

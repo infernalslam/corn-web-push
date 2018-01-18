@@ -19,6 +19,11 @@ module.exports = {
         from: /["][$]|[$]["]/g,
         to: ''
       })
+      replace.sync({
+        files: `${outputPath + fileName}.js`,
+        from: /["]/g,
+        to: '\''
+      })
       logSuccess(fileName)
     }
     catch (error) {

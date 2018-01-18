@@ -1,40 +1,50 @@
 const Sequelize = require('sequelize')
+const SqlString = require('sqlstring');
+
 module.exports = {
-  createWhereCondition(queryBinding) {
-   
+  createWhereCondition (queryBinding) {
     let returnedValue = {}
-    queryBinding.forEach((value) => {
-      console.log(value)
-      if(!returnedValue[value.prefix]) {
-        returnedValue[value.prefix] = {}
+    queryBinding.forEach((item) => {
+      if (!returnedValue[item.prefix]) {
+        returnedValue[item.prefix] = {}
       }
-      if(value.value !== undefined) {
-        if(value.condition === 'LIKE'){
-          returnedValue[value.prefix][value.field] = `${value.prefix}.${value.field} LIKE :${value.field}`
-        } else if (value.condition === 'IN') {
-          returnedValue[value.prefix][value.field] = `${value.prefix}.${value.field} IN (:${value.field})`
-        } else if (value.condition === '=') {
-          returnedValue[value.prefix][value.field] = `${value.prefix}.${value.field} = :${value.field}`
-        } else if (value.condition === '!=') {
-          returnedValue[value.prefix][value.field] = `${value.prefix}.${value.field} != :${value.field}`
+      if (item.value !== undefined && item.value !== null) {
+        let value = item.value
+        if (Array.isArray(value) && item.quote) {
+          value = item.map(item => `${SqlString.escape(item)}`).join(',')
+        } else if (item.quote) {
+          value = `${SqlString.escape(value)}`
+        }
+
+        console.log(value)
+        switch (item.condition) {
+        case 'LIKE': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} LIKE ${value}`; break
+        case 'IN': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} IN (${value})`; break
+        case '=': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} = ${value}`; break
+        case '!=': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} != ${value}`; break
+        case 'IS': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} IS ${value}`; break
+        case '>': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} > ${value}`; break
+        case '<': returnedValue[item.prefix][item.field] = `${item.prefix}.${item.field} < ${value}`; break
+        default: returnedValue[item.prefix][item.field] = value; break
         }
       } else {
-        returnedValue[value.prefix][value.field] = true
+        returnedValue[item.prefix][item.field] = true
       }
     })
     return returnedValue
-  },
-  createBindOption(params) {
-    let bind = {}
-    Object.keys(params.where).forEach((key) => {
-      bind[key] = params.where[key]
-    })
-    Object.keys(params.otherOptions).forEach((key) => {
-      bind[key] = params.otherOptions[key]
-    })
-    return {
-      replacements: bind,
-      type: Sequelize.QueryTypes.SELECT
-    }
   }
+  // createBindOption (params) {
+  //   let bind = {}
+  //   Object.keys(params.where).forEach((key) => {
+  //     bind[key] = params.where[key]
+  //   })
+  //   Object.keys(params.otherOptions).forEach((key) => {
+  //     bind[key] = params.otherOptions[key]
+  //   })
+  //   return {
+  //     raw: true,
+  //     replacements: bind,
+  //     type: Sequelize.QueryTypes.SELECT
+  //   }
+  // }
 }

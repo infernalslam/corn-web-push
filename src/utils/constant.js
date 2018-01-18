@@ -4,6 +4,7 @@ const db = {
   limit: 50,
   offset: 0
 }
+
 module.exports = {
   db
 }
