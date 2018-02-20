@@ -1,7 +1,5 @@
-const Product = require('./product')
-const ProductSku = require('./productSku')
+const example = require('./example')
 
 module.exports = {
-  Product,
-  ProductSku
+  example
 }

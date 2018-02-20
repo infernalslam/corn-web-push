@@ -1,25 +1,19 @@
 module.exports = {
   dbConfig: {
-    host: '192.168.1.254',
+    host: '192.168.64.2',
     username: 'root',
     password: '',
-    schema: 'sellsukinew'
+    schema: 'movieclub_db'
   },
   dbTables: [
-    // 'Bill',
-    'Bill_Coupon',
-    'Bill_Debt_Balance',
-    'Bill_Offer_Type',
-    'Bill_Payment',
-    'Bill_Product_Sku',
-    'Bill_Product_Sku_Deduct_Stock',
-    'Bill_Promotion',
-    'Bill_Promotion_Sku',
-    'Bill_Seller',
-    'Bill_State',
-    'Bill_State_History',
-    'Bill_Third_Party_Logistic',
-    'Bill_Type'
+    'tb_member_role',
+    'tb_member_role_user',
+    'tb_log_used_point',
+    'tb_package',
+    'tb_user_pakage',
+    'tb_coupon',
+    'tb_user_coupon'
+
   ],
   outputPath: './src/repositories/'
 }

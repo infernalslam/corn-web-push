@@ -1,5 +1,4 @@
-const Sequelize = require('sequelize')
-const SqlString = require('sqlstring');
+const SqlString = require('sqlstring')
 
 module.exports = {
   createWhereCondition (queryBinding) {
@@ -14,6 +13,8 @@ module.exports = {
           value = item.map(item => `${SqlString.escape(item)}`).join(',')
         } else if (item.quote) {
           value = `${SqlString.escape(value)}`
+        } else {
+          value = SqlString.escape(value)
         }
 
         console.log(value)

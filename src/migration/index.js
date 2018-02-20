@@ -6,8 +6,11 @@ const fileWriter = require('./src/fileWriter')
 const { outputPath, dbConfig, dbTables } = require('./config')
 
 async function main () {
-  connection = new connection(dbConfig.host,dbConfig.username,dbConfig.password,dbConfig.schema)
-  connection.dbConnect()
+  connection = new connection(dbConfig.host, dbConfig.username, dbConfig.password, dbConfig.schema)
+  await connection.dbConnect()
+  
+  // let dbTables = await connection.getTableName()
+  // dbTables = dbTables.map(row => row.Tables_in_movieclub_db)
   console.log('Start converting database schema to model...')
   console.log(`--- Schema: ${dbConfig.schema} ---`)
   console.log(`--- Target: ${dbTables.length} tables ---`)
@@ -23,7 +26,7 @@ async function main () {
       console.log(e)
     }
   })
-  connection.dbDisConnect()
+  await connection.dbDisConnect()
 }
 
 main()
