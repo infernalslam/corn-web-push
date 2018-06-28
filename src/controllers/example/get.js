@@ -1,5 +1,5 @@
 // const { Bill } = require('../../response/models')
-const { getAll } = require('../../services/bill')
+const { getAll } = require('../../services/example')
 
 module.exports = async function (req, res) {
   const { limit, offset, sort, order } = req.query
