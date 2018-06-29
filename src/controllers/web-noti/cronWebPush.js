@@ -1,9 +1,22 @@
 // const { Bill } = require('../../response/models')
-const { updateFirestore } = require('../../services/web-noti/updateFirestore')
+const { webPushNotification } = require('../../services/web-noti')
 
 module.exports = async function (req, res) {
-  updateFirestore()
+  console.log('cronWebPush')
 
-  const response = notification()
-  res.send(response)
+  var usersNotDone = await webPushNotification.getUserNotComplete()
+  const store = await webPushNotification.getStringStore(usersNotDone)
+  const usersSellsuki = await webPushNotification.getUserFromSellsuki(store)
+  
+  usersSellsuki.results.forEach((user) => {
+    var stage = webPushNotification.getStage(user)
+    var date = new Date()
+    webPushNotification.updateDataToFireStore(user, stage, date)
+  })
+  
+  usersNotDone = await webPushNotification.getUserNotComplete()
+  usersNotDone.forEach((user) => {
+    webPushNotification.pushNotification(user)
+  })
+  return {success: 1, message: 'success'}
 }

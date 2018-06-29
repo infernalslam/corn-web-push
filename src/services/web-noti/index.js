@@ -1,7 +1,6 @@
-const updateFirestore = require('./updateFirestore')
-const notification = require('./notification')
+const webPushNotification = require('./webPushNotification')
+console.log('index service')
 
 module.exports = {
-  updateFirestore,
-  notification
+  webPushNotification
 }

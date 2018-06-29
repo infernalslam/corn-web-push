@@ -1,9 +1,11 @@
 // const model = require('../../repositories')
 // const { db } = require('../../utils/constant')
-module.exports = async function () {
+const userRef = require('./config')
+
+module.exports = async function (key, operation, value) {
   return new Promise((resolve, reject) => {
     resolve(
-      userRef.where('stage', '!=', 'Done').get()
+      userRef.init().where(key, operation, value).get()
         .then((snapshot) => {
           return snapshot
         })

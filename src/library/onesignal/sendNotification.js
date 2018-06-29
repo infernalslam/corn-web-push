@@ -19,18 +19,15 @@ module.exports = async function (message) {
     res.on('message', function (message) {
       console.log('Response:')
       console.log(JSON.parse(message))
+      response = JSON.parse(message)
     })
   })
 
   req.on('error', function (e) {
     console.log('ERROR:')
     console.log(e)
-    return e
   })
 
-  //เช็คว่ารีเทรินไรไป
-  var response = req.write(JSON.stringify(message))
+  req.write(JSON.stringify(message))
   req.end()
-
-  return response
 }

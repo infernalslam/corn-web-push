@@ -1,7 +1,9 @@
+const userRef = require('./config')
+
 module.exports = async function (storeId) {
   return new Promise((resolve, reject) => {
     resolve(
-      userRef.doc(storeId).get()
+      userRef.init().doc(storeId).get()
         .then(doc => {
           if (!doc.exists) {
             console.log('No such document!')
