@@ -1,4 +1,5 @@
 const exampleController = require('../controllers/example')
+const cronController = require('../controllers/web-noti/index')
 
 module.exports = {
   example: [
@@ -7,5 +8,10 @@ module.exports = {
       path: '/',
       controller: exampleController.get
     },
+    // {
+    //   methods: 'GET',
+    //   path: '/corn',
+    //   controller: cronController.cronWebPush
+    // },
   ]
 }
