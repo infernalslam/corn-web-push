@@ -9,6 +9,7 @@ module.exports = async function (req, res) {
             return 'unsuccess'
           } else {
             console.log('Document data:', doc.data().playerId)
+            console.log('success')
             return 'success'
           }
         })

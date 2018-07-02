@@ -1,6 +1,6 @@
 const cronController = require('../controllers/web-noti')
 const registerController = require('../controllers/web-noti')
-const getPlayerIdFireStore = require('../library/firestore')
+const getPlayerIdFireStore = require('../controllers/web-noti')
 
 module.exports = {
   webPushNotification: [
@@ -21,7 +21,7 @@ module.exports = {
     {
       methods: 'GET',
       path: '/:storeid',
-      controller: getPlayerIdFireStore.getPlayerId
+      controller: getPlayerIdFireStore.getPlayer
     }
   ],
 }
