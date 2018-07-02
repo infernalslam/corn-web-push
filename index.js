@@ -29,7 +29,7 @@ app.get('/', function (req, res) {
     uptime: uptime,
     status: 'OK'
   }
-  res.send(server)
+  res.render(server)
 })
 
 // generating API route

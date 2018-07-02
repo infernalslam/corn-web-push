@@ -1,4 +1,5 @@
 const cronController = require('../controllers/web-noti')
+const registerController = require('../controllers/web-noti')
 
 module.exports = {
   webPushNotification: [
@@ -7,5 +8,12 @@ module.exports = {
       path: '/cron',
       controller: cronController.cronWebPush
     },
+  ],
+  register: [
+    {
+      methods: 'GET',
+      path: '/',
+      controller: registerController.register
+    }
   ]
 }
