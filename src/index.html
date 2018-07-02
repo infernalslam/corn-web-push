@@ -1,81 +1,105 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <link rel="manifest" href="/manifest.json" />
-    <script type="text/javascript" src="https://l2.io/ip.js?var=storeid"></script>
-    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
-    <script>
-      var playerId = undefined
-      var storeid
-      var OneSignal = window.OneSignal || [];
-        OneSignal.push(function() {
-          OneSignal.init({
-            appId: "f0222007-407e-451d-a796-00bdf5612365",
-            autoRegister: false,
-            welcomeNotification: {
-              'title': 'Wellcome to Sellsuki',
-              'message': 'Thanks for subscribing!',
-            },
-            notifyButton: {
-              enable: false,
-              displayPredicate: function() {
-                return OneSignal.isPushNotificationsEnabled()
-                        .then(function(isPushEnabled) {
-                        return !isPushEnabled
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="manifest" href="/manifest.json" />
+   <script type="text/javascript" src="https://l2.io/ip.js?var=storeid"></script>
+   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+   <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+   <script>
+    var config = {
+      apiKey: "AIzaSyCWJOdnyasNUL7xAWi83WDHihsKj92N7R8",
+                authDomain: "notification-7e499.firebaseapp.com",
+                databaseURL: "https://notification-7e499.firebaseio.com",
+                projectId: "notification-7e499",
+                storageBucket: "notification-7e499.appspot.com",
+                messagingSenderId: "400202276323"
+            }
+            firebase.initializeApp(config) 
+            var db = firebase.firestore()
+            const firestore = firebase.firestore()
+            const settings = { 
+                timestampsInSnapshots: true
+            }
+            db.settings(settings)
+            var user = db.collection('users')
+
+            var playerIdFirestore = undefined
+            var storeid;
+            var OneSignal = window.OneSignal || [];
+            OneSignal.push(function() {
+                OneSignal.init({
+                    appId: "17056444-a80b-40d4-9388-1a9a751b0f31",
+                    autoRegister: false,
+                    welcomeNotification: {
+                        "title": "Wellcome to Sellsuki",
+                        "message": "Thanks for subscribing!",
+                        //"url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
+                    },
+                    notifyButton: {
+                        enable: false,
+                        displayPredicate:   function() {
+                                                return OneSignal.isPushNotificationsEnabled()
+                                                .then(function(isPushEnabled) {
+                                                    return !isPushEnabled
+                                                })
+                    },
+                    showCredit: false,
+                    size: "large"
+                },
                 })
-              },
-                showCredit: false,
-                size: "large"
-            },
-          })
-        })
-        
-        function updatePlayerId() {
-          OneSignal.push(function() {
-            OneSignal.getUserId(function(userId) {
-            // document.getElementById('demo').innerHTML=userId
-              var user = db.collection('users')
-              user.where('storeId', '==',storeid).get()        
-                .then(doc =>{
-                  console.log("doc.size : ",doc.size);
-                  console.log("userID :",userId);
+            })
 
-                  doc.forEach(function(element) {         
-                    playerId = element.data().playerId
-                  })
-                  console.log("getplayer_id= ",playerId)
-
-                  if ((playerId === undefined) && (userId !== null)){
-                    console.log('No such document! So add new one to firebase')
-                    var adduser = user
+            function httpGet (theUrl) {
+                var xmlHttp = new XMLHttpRequest()
+                xmlHttp.open( 'GET', theUrl, false ); // false for synchronous request
+                xmlHttp.send( null )
+                return xmlHttp.responseText
+            }
+            function updatePlayerId() {
+                OneSignal.push(function() {
+                    OneSignal.getUserId(function(playerIdCurrent) {
+                        document.getElementById('demo').innerHTML=playerIdCurrent
+                        user.where('storeId', '==',storeid).get()        
+                        .then(doc =>{
+                            console.log("doc.size : ",doc.size);
+                            console.log("userID :",playerIdCurrent);
+                            doc.forEach(function(element) {         
+                                playerIdFirestore = element.data().playerId
+                            })
+                            console.log("getplayer_id= ",playerIdFirestore);
+                            getSubscriptionState().then(function(state) {
+                            if ((playerIdFirestore === undefined) && (playerIdCurrent !== null)){
+                                    var date = new Date().toString()
+                                    console.log('No such document! So add new one to firebase')
+                                    user
                                     .doc(storeid)
-                                    .set({creatAt:'', dataOneSignal:'', dataSellsuki:'', isAllow:'', isComplete:'false', playerId: userId, stage:'', storeId: storeid, updateAt:''})
-                  } else if (doc.size > 0  && (userId !== null)){
-                    db.collection("users")
-                      .doc(storeid)
-                      .update({ 
-                      "playerId": userId
-                      }).then(function() {
-                      console.log("Document successfully updated!")
-                    })
-                    }
-                    })
+                                    .set({creatAt:date, dataOneSignal:httpGet('https://onesignal.com/api/v1/players/'+playerIdCurrent+'?app_id=17056444-a80b-40d4-9388-1a9a751b0f31'), dataSellsuki:'', isAllow:state.isPushEnabled, isComplete:'false', playerId: playerIdCurrent, stage:'1', storeId: storeid, updateAt:date})
+                            
+                            }else if(doc.size > 0  && (playerIdCurrent !== null)){
+                                db.collection("users").doc(storeid).update({playerId: playerIdCurrent, isAllow:state.isPushEnabled})
+                                .then(function() {
+                                    console.log("Document successfully updated!")
+                                })
+                            } 
+                            })
+                        })
                     .catch(err => {
                         console.log('Error getting document', err);
                         })
                     })
                 })
             } 
-            // updatePlayerId()
+            //////////////////////////////////////////////////////////////////////////////////////////////////HTTP REQUES
+            updatePlayerId()
         </script>
     </head>
-    <body>  
-        <!-- <p id='demo'>userID</p> -->
-        <!-- <button id="my-notification-button"  onclick="register()" style="display:'';">Register</button> -->
+    <body>
+        <div align='center'>
+            <p id='demo'>PlayerId From Onesignal</p>
+            <button id='register-button'  onclick='register()' style='margin-right:100px;'>Register</button>
+        </div>
         <script>
-            register()
             function onManageWebPushSubscriptionButtonClicked () {
                 getSubscriptionState().then(function(state) {
                     if (state.isPushEnabled) { 
