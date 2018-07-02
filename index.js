@@ -31,7 +31,6 @@ app.get('/', function (req, res) {
   }
   res.render(server)
 })
-
 // generating API route
 Object.keys(routeConfig).forEach((key, index) => {
   routeConfig[key].forEach((route) => {
