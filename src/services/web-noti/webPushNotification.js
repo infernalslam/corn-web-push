@@ -1,18 +1,20 @@
-const { getFilterUser, updateData }  = require('../../library/firestore')
+const { getActiveUser, updateData }  = require('../../library/firestore')
 const { getUser } = require('../../library/sellsuki')
 const { sendNotification }  = require('../../library/onesignal')
-
 const { STAGE, ONESIGNAL } = require('../../config/constant')
 
 module.exports = {
   getUserNotComplete: function () {
-    var data = getFilterUser('isComplete', '==', false)
-    return data
+    var activeUserData = getActiveUser()
+    return activeUserData
   },
 
-  getStringStore: function (userNotDone) {
+  setDataStoreCollections: function (userNotDone) {
     var str = ''
     var isFirst = true
+    var userCollections = {}
+    var userData = []
+
     userNotDone.forEach((collections) => {
       if (isFirst) {
         str += collections.data().storeId
@@ -20,8 +22,13 @@ module.exports = {
       } else {
         str += ',' + collections.data().storeId
       }
+      userData.push(collections.data())
     })
-    return str
+    userCollections = {
+      storeIds: str,
+      data: userData
+    }
+    return userCollections
   },
 
   getUserFromSellsuki: async function (store) {
@@ -35,7 +42,7 @@ module.exports = {
   
     if (user.count_product <= 1) {
       stage = STAGE.PRODUCT
-    } else if (user.count_store_payment_channel === 0) {
+    } else if (user.count_store_payment_channel <= 0) {
       stage = STAGE.PAYMENT
     } else if (user.count_store_shipping_type <= 1) {
       stage = STAGE.SHIPPING
@@ -43,21 +50,19 @@ module.exports = {
     return stage
   },
 
-  updateDataToFireStore: function (user, stage, date) {
+  updateDataToFireStore: function (userFirestore, user, stage, date) {
     isComplete = false
-
     if (stage === '') {
-      stage = '3'
+      stage = STAGE.SHIPPING
       isComplete = true
     }
 
-    let data = { dataSellsuki: user, 
-      stage: stage, 
-      updateAt: date, 
-      isComplete: isComplete 
-    }
+    userFirestore.stage = stage
+    userFirestore.updateAt = date
+    userFirestore.isComplete = isComplete
+    userFirestore.dataSellsuki = user
 
-    updateData( user.store_id, data )
+    updateData( user.store_id, userFirestore )
   
   },
   pushNotification: async function (user) {
