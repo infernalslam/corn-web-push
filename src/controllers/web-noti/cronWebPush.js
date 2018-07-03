@@ -1,5 +1,6 @@
 // const { Bill } = require('../../response/models')
 const { webPushNotification } = require('../../services/web-noti')
+const { getUserByStoreId } = require('../../library/firestore')
 
 module.exports = async function (req, res) {
   var usersNotDone = await webPushNotification.getUserNotComplete()
@@ -8,8 +9,8 @@ module.exports = async function (req, res) {
 
   usersSellsuki.results.forEach((user, i) => {
     var stage = webPushNotification.getStage(user)
-    var date = new Date()
-    webPushNotification.updateDataToFireStore(userCollections.data[i], user, stage, date)
+    var updateTime = new Date()
+    webPushNotification.updateDataToFireStore(userCollections.data[i], user, stage, updateTime)
   })
   
   usersNotDone = await webPushNotification.getUserNotComplete()

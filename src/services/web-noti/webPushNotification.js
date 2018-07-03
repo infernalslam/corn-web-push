@@ -50,19 +50,26 @@ module.exports = {
     return stage
   },
 
-  updateDataToFireStore: function (userFirestore, user, stage, date) {
+  updateDataToFireStore: function (userFirestore, userSellsuki, stage, updateTime) {
+    // console.log(user.store_id)
     isComplete = false
     if (stage === '') {
       stage = STAGE.SHIPPING
       isComplete = true
     }
-
-    userFirestore.stage = stage
-    userFirestore.updateAt = date
-    userFirestore.isComplete = isComplete
-    userFirestore.dataSellsuki = user
-
-    updateData( user.store_id, userFirestore )
+    
+    let transferData = this.transferData(
+      userSellsuki.store_id, 
+      userFirestore.playerId, 
+      userFirestore.isAllow, 
+      isComplete, 
+      stage,
+      userFirestore.creatAt,
+      updateTime,
+      userFirestore.dataOneSignal,
+      userSellsuki
+    )
+    updateData( (userSellsuki.store_id).toString(), transferData )
   
   },
   pushNotification: async function (user) {
@@ -101,4 +108,17 @@ module.exports = {
     sendNotification(message)
     return true
   },
+  transferData: function(storeId, playerId, isAllow, isComplete, stage, creatAt, updateAt, dataOneSignal, dataSellsuki) {
+    return transferedData = {
+      storeId: (storeId !== '' ? storeId : ''),
+      playerId: (playerId !== null ? playerId : ''),
+      isAllow: (isAllow !== null ? isAllow : false),
+      isComplete: (isComplete !== null ? isComplete : false),
+      stage: (stage !== '' ? stage : STAGE.PRODUCT),
+      creatAt: (creatAt !== '' ? creatAt : ''),
+      updateAt: (updateAt !== '' ? updateAt : ''),
+      dataOneSignal: (dataOneSignal !== null ? dataOneSignal : {}),
+      dataSellsuki: (dataSellsuki !== null ? dataSellsuki : {})
+    }
+  }
 }
