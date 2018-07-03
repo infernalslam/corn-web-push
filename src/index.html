@@ -10,6 +10,7 @@
     var playerIdFirestore = undefined
     var storeid 
     var OneSignal = window.OneSignal || []
+    console.log(storeid)
     OneSignal.push(function() {
       OneSignal.init({
         appId: '17056444-a80b-40d4-9388-1a9a751b0f31',
@@ -31,6 +32,15 @@
         }
       })
     })
+    // function clickAllowButton () {
+    //   OneSignal.push(['getNotificationPermission', function (permission) {
+    //     if(permission==='granted') {
+    //       return true
+    //     } else {
+    //       return false
+    //     }
+    //   }])
+    // }
     function onManageWebPushSubscriptionButtonClicked () {
       getSubscriptionState().then(function (state) {
         if (state.isPushEnabled) {
@@ -42,6 +52,7 @@
         }
       })
     }  
+
     function getSubscriptionState () {
       return Promise.all([
         OneSignal.isPushNotificationsEnabled(),
@@ -58,36 +69,38 @@
     }
             
     function subscribe () {
-      OneSignal.push( async function() {
+      OneSignal.push(async function () {
         if (!OneSignal.isPushNotificationsSupported()) {
           return
         }
         onManageWebPushSubscriptionButtonClicked()
         OneSignal.on("subscriptionChange", function (isSubscribed) {
           onManageWebPushSubscriptionButtonClicked()
-          checkStoreIdHaveAlready()
         })
+        checkStoreIdHaveAlready()
       })
     }
+
     function corn () {
       httpGet('http://localhost:8005/api/webPushNotification/corn')
     }
     async function checkStoreIdHaveAlready () {
-      var RegisterAlreadyOrNot = httpGet('http://localhost:8005/api/getPlayerId/28')
-      console.log(RegisterAlreadyOrNot)
-      if(RegisterAlreadyOrNot==='unsuccess') {
-        OneSignal.push(function () {
-          OneSignal.getUserId(function (playerIdCurrent) {
-            if(playerIdCurrent!==null) {
-              httpGet('http://localhost:8005/api/register/28/'+playerIdCurrent)
-              document.getElementById('demo').innerHTML=playerIdCurrent
+      OneSignal.push(function () {
+        OneSignal.getUserId(function (playerIdCurrent) {
+          if (playerIdCurrent !== null) {
+            OneSignal.push(['getNotificationPermission', function (permission) {
+              let allow = false
+              if(permission === 'granted'){
+                allow = true
+              }
+              httpGet('http://localhost:8005/api/register/' + storeid + '/' + playerIdCurrent + '/' + allow)
               console.log('add new row to firebase already!!!')
+            }])
             } else {
               console.log('PlayerId == null && cannot add to firebase yet!!!!')
             }
           })
-        })
-      }   
+        })   
     }
     function httpGet (theUrl) {
       var xmlHttp = new XMLHttpRequest()
@@ -95,7 +108,6 @@
       xmlHttp.send(null)
       return xmlHttp.responseText
     }
-    checkStoreIdHaveAlready()
     </script>
     </head>
     <body>

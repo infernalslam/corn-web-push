@@ -1,35 +1,25 @@
-const cronController = require('../controllers/web-noti')
-const registerController = require('../controllers/web-noti')
-const getPlayerIdFireStore = require('../controllers/web-noti')
-const CreateUserToFirestore = require('../controllers/web-noti')
+const { cronController, uiController, createUserToFirestore } = require('../controllers/web-noti')
 
 module.exports = {
   webPushNotification: [
     {
       methods: 'GET',
       path: '/cron',
-      controller: cronController.cronWebPush
+      controller: cronController
     },
   ],
-  webnoti: [
+  ui: [
     {
       methods: 'GET',
       path: '/',
-      controller: registerController.register
-    }
-  ],
-  getPlayerId: [
-    {
-      methods: 'GET',
-      path: '/:storeid',
-      controller: getPlayerIdFireStore.getPlayer
+      controller: uiController
     }
   ],
   register: [
     {
       methods: 'GET',
-      path: '/:storeid/:playerid',
-      controller: CreateUserToFirestore.create
+      path: '/:storeid/:playerid/:allow',
+      controller: createUserToFirestore
     }
-  ],
+  ]
 }

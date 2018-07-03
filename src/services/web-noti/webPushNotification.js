@@ -109,6 +109,7 @@ module.exports = {
     return true
   },
   transferData: function(storeId, playerId, isAllow, isComplete, stage, creatAt, updateAt, dataOneSignal, dataSellsuki) {
+    console.log('transfer # ')
     return transferedData = {
       storeId: (storeId !== '' ? storeId : ''),
       playerId: (playerId !== null ? playerId : ''),
