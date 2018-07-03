@@ -21,4 +21,5 @@ module.exports = async function (req, res) {
     success: 1, 
     message: 'success'
   }
+  ,
 }
