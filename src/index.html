@@ -3,12 +3,10 @@
   <head>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <link rel="manifest" href="/manifest.json" />
-    <script type="text/javascript" src="https://l2.io/ip.js?var=storeid"></script>
+    <!-- <script type="text/javascript" src="https://l2.io/ip.js?var=storeid"></script> -->
     <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
-    <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
     <script>
-    var playerIdFirestore = undefined
-    var storeid 
+    var storeid = '1'
     var OneSignal = window.OneSignal || []
     console.log(storeid)
     OneSignal.push(function() {
@@ -89,11 +87,11 @@
         OneSignal.getUserId(function (playerIdCurrent) {
           if (playerIdCurrent !== null) {
             OneSignal.push(['getNotificationPermission', function (permission) {
-              let allow = false
+              var allow = false
               if(permission === 'granted'){
                 allow = true
               }
-              httpGet('http://localhost:8005/api/register/' + storeid + '/' + playerIdCurrent + '/' + allow)
+              httpGet('http://localhost:8005/api/register/'+ storeid + '/' + playerIdCurrent + '/' + allow)
               console.log('add new row to firebase already!!!')
             }])
             } else {

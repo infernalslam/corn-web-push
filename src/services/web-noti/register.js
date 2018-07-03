@@ -1,7 +1,7 @@
-const { getUserByStoreId } = require('../../library/firestore')
+const { getUserByStoreId, createData } = require('../../library/firestore')
 const { getDevice } = require('../../library/onesignal')
 const { getUser } = require('../../library/sellsuki')
-const { transferData } = require('../web-noti/')
+const webPushNotification  = require('./webPushNotification')
 
 module.exports = {
   checkPlayerFirestore: async function(storeId) {
@@ -15,7 +15,9 @@ module.exports = {
   createNewUser: async function (storeId, playerId, isAllow, updateTime) {
     let userOneSignal = await getDevice(playerId)
     let userSellsuki = await getUser(storeId)
-    console.log('isAllow: ', isAllow)
-    transferData(storeId, playerId, isAllow, '', '', updateTime, updateTime, userOneSignal, userSellsuki)
+    console.log('sellsuki: ', userSellsuki.data.results.results[0])
+    let data = webPushNotification.transferData(storeId, playerId, isAllow, '', '', updateTime, updateTime, userOneSignal, userSellsuki.data.results.results[0])
+    console.log(data)
+    createData(storeId, data)
   }
 }
