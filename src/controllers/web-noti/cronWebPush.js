@@ -1,17 +1,16 @@
 // const { Bill } = require('../../response/models')
 const { webPushNotification } = require('../../services/web-noti')
+const { getUserByStoreId } = require('../../library/firestore')
 
 module.exports = async function (req, res) {
-  console.log('cronWebPush')
-
   var usersNotDone = await webPushNotification.getUserNotComplete()
-  const store = await webPushNotification.getStringStore(usersNotDone)
-  const usersSellsuki = await webPushNotification.getUserFromSellsuki(store)
-  
-  usersSellsuki.results.forEach((user) => {
+  const userCollections = await webPushNotification.setDataStoreCollections(usersNotDone)
+  const usersSellsuki = await webPushNotification.getUserFromSellsuki(userCollections.storeIds)
+
+  usersSellsuki.results.forEach((user, i) => {
     var stage = webPushNotification.getStage(user)
-    var date = new Date()
-    webPushNotification.updateDataToFireStore(user, stage, date)
+    var updateTime = new Date()
+    webPushNotification.updateDataToFireStore(userCollections.data[i], user, stage, updateTime)
   })
   
   usersNotDone = await webPushNotification.getUserNotComplete()
