@@ -6,11 +6,11 @@ module.exports = async function (req, res) {
         .then(doc => {
           if (!doc.exists) {
             console.log('No such document!')
-            return 'unsuccess'
+            return res.send('unsuccess')
           } else {
             console.log('Document data:', doc.data().playerId)
             console.log('success')
-            return 'success'
+            return res.send('success')
           }
         })
         .catch(err => {

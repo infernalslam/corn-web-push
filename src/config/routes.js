@@ -11,7 +11,7 @@ module.exports = {
       controller: cronController.cronWebPush
     },
   ],
-  register: [
+  webnoti: [
     {
       methods: 'GET',
       path: '/',
