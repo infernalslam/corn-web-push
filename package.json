@@ -17,14 +17,16 @@
   },
   "devDependencies": {
     "camelcase": "^4.1.0",
+    "jest": "^23.2.0",
     "js-beautify": "^1.7.5",
-    "replace-in-file": "^3.1.0",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "replace-in-file": "^3.1.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "migration": "node ./src/migration",
-    "start": "export NODE_ENV=local && nodemon ."
+    "start": "export NODE_ENV=local && nodemon .",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
