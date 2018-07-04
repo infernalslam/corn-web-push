@@ -34,12 +34,11 @@
     async function onManageWebPushSubscriptionButtonClicked () {
       getSubscriptionState().then(function (state) {
         if (state.isPushEnabled) {
-          OneSignal.setSubscription(true)
-          console.log('subscribe')
-          window.location.reload();
+          checkStoreIdHaveAlready ()
         } else {
           OneSignal.registerForPushNotifications()
-          console.log('http pop up')
+          OneSignal.setSubscription(true)
+          console.log('http pop up && subscibe already')
         }
       })
     }  
@@ -100,7 +99,6 @@
       xmlHttp.send(null)
       return xmlHttp.responseText
     }
-    checkStoreIdHaveAlready ()
     </script>
     </head>
     <body>

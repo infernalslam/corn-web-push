@@ -8,5 +8,7 @@ module.exports = async function (req, res) {
     console.log(req.params.storeid)
     const resCreateData = await register.createNewUser(req.params.storeid, req.params.playerid, req.params.allow, updateTime)
     return res.send(resCreateData)
+  } else {
+    return res.send('alreadyHave')
   }
 }
