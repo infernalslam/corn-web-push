@@ -79,6 +79,7 @@
         OneSignal.getUserId(function (playerIdCurrent) {
           console.log('playerid from Onesignal : ',playerIdCurrent)
           if (playerIdCurrent !== null) {
+            document.getElementById('demo').innerHTML = playerIdCurrent
             OneSignal.push(['getNotificationPermission', function (permission) {
               var allow = false
               if(permission === 'granted'){
@@ -86,6 +87,9 @@
               }
               const res = httpGet('http://localhost:8005/api/register/'+ storeid + '/' + playerIdCurrent + '/' + allow)
               console.log('Add to FireStore : >>>>>>>>>>>>>>>>>>> ', res)
+              if(res==='alreadyHave' || res==='success') {
+                document.getElementById('register-button').style.display = 'none'
+              }
             }])
             } else {
               console.log('PlayerId == null && cannot add to firebase yet!!!!')
@@ -99,13 +103,14 @@
       xmlHttp.send(null)
       return xmlHttp.responseText
     }
+    checkStoreIdHaveAlready () 
     </script>
     </head>
     <body>
       <div align='center'>
         <p id='demo'>PlayerId From Onesignal</p>
         <button id='register-button'  onclick='subscribe()' style='margin-right: 100px'>Register</button>
-        <button id='register-button'  onclick='corn()' style='margin-right: 100px'>Corn</button>
+        <button id='send-button'  onclick='corn()' style='margin-right: 100px'>Corn</button>
       </div>
     </body>
 </html>
