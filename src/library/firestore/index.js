@@ -5,6 +5,7 @@ const updateData = require('./update')
 const deleteData = require('./delete')
 const getActiveUser = require('./getActiveUser')
 
+
 module.exports = {
   createData,
   getFilterUser,

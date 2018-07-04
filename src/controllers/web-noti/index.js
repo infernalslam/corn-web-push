@@ -1,5 +1,11 @@
-const cronWebPush = require('./cronWebPush')
+const cronController = require('./cronWebPush')
+const uiController = require('./ui')
+const getPlayerIdFireStore = require('./getPlayer')
+const createUserToFirestore = require('./register')
 
 module.exports = {
-  cronWebPush
+  cronController,
+  uiController,
+  getPlayerIdFireStore,
+  createUserToFirestore
 }

@@ -1,14 +1,21 @@
-// const model = require('../../repositories')
-// const { db } = require('../../utils/constant')
 const userRef = require('./config')
 
 module.exports = async function (storeId, data) {
-  userRef
-    .init()
-    .doc(storeId)
-    .set(data)
-    //Add .then and return status success or fail
-  return {}
+  let result = null
+  try {
+    result = await userRef
+      .init()
+      .doc(storeId)
+      .set(data)
+      .then( function () {
+        return 'success'
+      }).catch( function () {
+        return 'unsuccess'
+      })
+  } catch (e) {
+    console.error(e)
+  }
+  return result
 }
 
 

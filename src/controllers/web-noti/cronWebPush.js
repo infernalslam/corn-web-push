@@ -3,7 +3,7 @@ const { webPushNotification } = require('../../services/web-noti')
 const { getUserByStoreId } = require('../../library/firestore')
 
 module.exports = async function (req, res) {
-  var usersNotDone = await webPushNotification.getUserNotComplete()
+  const usersNotDone = await webPushNotification.getUserNotComplete()
   const userCollections = await webPushNotification.setDataStoreCollections(usersNotDone)
   const usersSellsuki = await webPushNotification.getUserFromSellsuki(userCollections.storeIds)
 
@@ -17,5 +17,8 @@ module.exports = async function (req, res) {
   usersNotDone.forEach((user) => {
     webPushNotification.pushNotification(user)
   })
-  return {success: 1, message: 'success'}
+  return {
+    success: 1, 
+    message: 'success'
+  }
 }
