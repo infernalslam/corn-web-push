@@ -1,5 +1,5 @@
-// const firestore  = require('../../library/firestore')
 const { register } = require('../../services/web-noti')
+
 module.exports = async function (req, res) {
   const updateTime = new Date()
   let hasDataFirestore = await register.checkPlayerFirestore(req.params.storeid)
