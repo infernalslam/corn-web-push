@@ -30,28 +30,21 @@
         }
       })
     })
-    // function clickAllowButton () {
-    //   OneSignal.push(['getNotificationPermission', function (permission) {
-    //     if(permission==='granted') {
-    //       return true
-    //     } else {
-    //       return false
-    //     }
-    //   }])
-    // }
-    function onManageWebPushSubscriptionButtonClicked () {
+
+    async function onManageWebPushSubscriptionButtonClicked () {
       getSubscriptionState().then(function (state) {
         if (state.isPushEnabled) {
           OneSignal.setSubscription(true)
           console.log('subscribe')
+          window.location.reload();
         } else {
           OneSignal.registerForPushNotifications()
-          console.log('3')
+          console.log('http pop up')
         }
       })
     }  
 
-    function getSubscriptionState () {
+    async function getSubscriptionState () {
       return Promise.all([
         OneSignal.isPushNotificationsEnabled(),
         OneSignal.isOptedOut()
@@ -75,7 +68,7 @@
         OneSignal.on("subscriptionChange", function (isSubscribed) {
           onManageWebPushSubscriptionButtonClicked()
         })
-        checkStoreIdHaveAlready()
+        
       })
     }
 
@@ -85,14 +78,15 @@
     async function checkStoreIdHaveAlready () {
       OneSignal.push(function () {
         OneSignal.getUserId(function (playerIdCurrent) {
+          console.log('playerid from Onesignal : ',playerIdCurrent)
           if (playerIdCurrent !== null) {
             OneSignal.push(['getNotificationPermission', function (permission) {
               var allow = false
               if(permission === 'granted'){
                 allow = true
               }
-              httpGet('http://localhost:8005/api/register/'+ storeid + '/' + playerIdCurrent + '/' + allow)
-              console.log('add new row to firebase already!!!')
+              const res = httpGet('http://localhost:8005/api/register/'+ storeid + '/' + playerIdCurrent + '/' + allow)
+              console.log('Add to FireStore : >>>>>>>>>>>>>>>>>>> ', res)
             }])
             } else {
               console.log('PlayerId == null && cannot add to firebase yet!!!!')
@@ -106,6 +100,7 @@
       xmlHttp.send(null)
       return xmlHttp.responseText
     }
+    checkStoreIdHaveAlready ()
     </script>
     </head>
     <body>
