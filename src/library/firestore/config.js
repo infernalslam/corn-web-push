@@ -8,6 +8,7 @@ firebase.initializeApp({
   storageBucket: 'notification-7e499.appspot.com',
   messagingSenderId: '400202276323'
 })
+
 // Initialize Cloud Firestore through Firebase
 const db = firebase.firestore()
 const settings = {
@@ -15,10 +16,10 @@ const settings = {
 }
 db.settings(settings)
 
-
 class config {
   init() {
     return db.collection('users')
   }
 }
+
 module.exports = new config()

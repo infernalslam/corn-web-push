@@ -15,6 +15,7 @@ module.exports = async function (storeId, data) {
   } catch (e) {
     console.error(e)
   }
+  
   return result
 }
 

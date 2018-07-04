@@ -24,6 +24,7 @@ module.exports = {
       }
       userData.push(collections.data())
     })
+
     userCollections = {
       storeIds: str,
       data: userData
@@ -32,14 +33,12 @@ module.exports = {
   },
 
   getUserFromSellsuki: async function (store) {
-    // console.log('store ', store)
     var user = await getUser(store)
-    // console.log('user ', user.data.results)
     return user.data.results
   },
+
   getStage: function (user) {
     let stage = ''
-  
     if (user.count_product <= 1) {
       stage = STAGE.PRODUCT
     } else if (user.count_store_payment_channel <= 0) {
@@ -47,12 +46,12 @@ module.exports = {
     } else if (user.count_store_shipping_type <= 1) {
       stage = STAGE.SHIPPING
     }
+
     return stage
   },
 
   updateDataToFireStore: function (userFirestore, userSellsuki, stage, updateTime) {
-    // console.log(user.store_id)
-    isComplete = false
+    let isComplete = false
     if (stage === '') {
       stage = STAGE.SHIPPING
       isComplete = true
@@ -69,12 +68,14 @@ module.exports = {
       userFirestore.dataOneSignal,
       userSellsuki
     )
-    updateData( (userSellsuki.store_id).toString(), transferData )
-  
+
+    updateData((userSellsuki.store_id).toString(), transferData)
   },
+
   pushNotification: async function (user) {
     let heading, content
-    // var url = ''
+    // let url = ''
+    
     if (user.data().dataOneSignal.language === 'th') {
       if (user.data().stage === STAGE.PRODUCT) {
         heading = 'อยากเริ่มขาย ต้องเพิ่มสินค้าก่อนนะ!'
@@ -105,11 +106,12 @@ module.exports = {
       contents: { 'en': content },
       include_player_ids: [ user.data().playerId ]
     }
+    
     sendNotification(message)
     return true
   },
+
   transferData: function(storeId, playerId, isAllow, isComplete, stage, creatAt, updateAt, dataOneSignal, dataSellsuki) {
-    console.log('transfer # ')
     return transferedData = {
       storeId: (storeId !== '' ? storeId : ''),
       playerId: (playerId !== null ? playerId : ''),

@@ -14,7 +14,7 @@ module.exports = async function (storeId) {
           }
         })
         .catch(err => {
-        console.log('Error getting document', err)
+          console.log('Error getting document', err)
         })
     )
   })

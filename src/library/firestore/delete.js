@@ -1,5 +1,3 @@
-// const model = require('../../repositories')
-// const { db } = require('../../utils/constant')
 const userRef = require('./config')
 
 module.exports = async function (storeId) {
@@ -7,6 +5,7 @@ module.exports = async function (storeId) {
     .init()
     .doc(storeId)
     .delete()
+
   return {}
 }
 
