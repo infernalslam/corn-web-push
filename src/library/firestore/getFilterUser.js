@@ -1,5 +1,3 @@
-// const model = require('../../repositories')
-// const { db } = require('../../utils/constant')
 const userRef = require('./config')
 
 module.exports = async function (key, operation, value) {
@@ -14,5 +12,4 @@ module.exports = async function (key, operation, value) {
         })
     )
   })
-  // return {}
 }

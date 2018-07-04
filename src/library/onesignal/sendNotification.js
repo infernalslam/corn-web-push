@@ -2,14 +2,14 @@ const { ONESIGNAL } = require('../../config/constant')
 
 module.exports = async function (message) {
   var headers = {
-    'Content-Type': 'application/json; charset=utf-8',
+    'Content-Type': ONESIGNAL.CONTENT_TYPE,
     'Authorization': ONESIGNAL.REST_API
   }
 
   var options = {
-    host: 'onesignal.com',
-    port: 443,
-    path: '/api/v1/notifications',
+    host: ONESIGNAL.HOST,
+    port: ONESIGNAL.PORT,
+    path: ONESIGNAL.PATH,
     method: 'POST',
     headers: headers
   }
