@@ -38,7 +38,7 @@
   "jest": {
     "verbose": true,
     "testMatch": [
-      "**/test/unit/**/**.test.js"
+      "**/test/controllers/**/**.test.js"
     ]
   }
 }
